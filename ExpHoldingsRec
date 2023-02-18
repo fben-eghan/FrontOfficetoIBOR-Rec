@@ -1,0 +1,51 @@
+--Code to export securities holdings reconciliation of the two systems
+USE [POMSPortia4]
+GO
+
+/****** Object:  StoredProcedure [dbo].[ExpHoldingsRec]    Script Date: 25/01/2023 12:21:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE PROCEDURE [dbo].[ExpHoldingsRec] AS
+--Portia NOT POMs
+
+INSERT INTO [Holdings Rec] (Portfolio, [Security], [Sedol/Ticker], Portia, POMS, [Rec Difference])
+
+SELECT [Portia Rec].Portfolio AS Portfolio, [Portia Rec].[Security] AS [Security], [Portia Rec].Sedol AS [Sedol/Ticker], [Portia Rec].Quantity AS [Portia], COALESCE([POMS Rec].Quantity, '0.00') AS [POMS], SUM(COALESCE([POMS Rec].Quantity, '0.00') - [Portia Rec].Quantity) AS [Rec Difference]
+
+FROM [Portia Rec] LEFT JOIN [POMS Rec] ON [Portia Rec].PfoSedol = [POMS Rec].PfoSedol
+
+GROUP BY [Portia Rec].Portfolio, [Portia Rec].[Security], [Portia Rec].Sedol, [Portia Rec].Quantity, COALESCE([POMS Rec].Quantity, '0.00'), [POMS Rec].PfoSedol, [Portia Rec].PfoSedol
+
+HAVING ((([Portia Rec].Portfolio)<'zmonth') AND (([POMS Rec].PfoSedol) Is Null))
+
+UNION
+--POMS NOT Portia
+
+SELECT Left([POMS Rec].PfoSedol,8) AS Portfolio, [POMS Rec].SecLongName AS [Security], COALESCE([POMS Rec].Sedol2, [POMS Rec].Ticker) AS [Sedol/Ticker], Coalesce([Portia Rec].Quantity, '0.00') AS [Portia], [POMS Rec].Quantity AS [POMS], SUM(COALESCE([POMS Rec].Quantity, '0.00') - [Portia Rec].Quantity) AS [Rec Difference]
+
+FROM [POMS Rec] LEFT JOIN [Portia Rec] ON [POMS Rec].PfoSedol = [Portia Rec].PfoSedol
+
+GROUP BY Left([POMS Rec].PfoSedol,8), [POMS Rec].SecLongName, COALESCE([POMS Rec].Sedol2, [POMS Rec].Ticker), Coalesce([Portia Rec].Quantity, '0.00'), [POMS Rec].Quantity, [POMS Rec].PfoSedol, [Portia Rec].PfoSedol
+
+HAVING ((([POMS Rec].Quantity)<>0) AND (([POMS Rec].PfoSedol)<'zmonth') AND (([Portia Rec].PfoSedol) Is Null) AND ((Left([POMS Rec].[PfoSedol],8))<'zmonth'))
+
+UNION
+--POMS vs Portia
+
+SELECT [Portia Rec].Portfolio AS Portfolio, [POMS Rec].[SecLongName] AS [Security], COALESCE([Portia Rec].Sedol, [POMS Rec].Sedol2, [POMS Rec].Ticker) AS [Sedol/Ticker], [Portia Rec].Quantity AS [Portia], COALESCE([POMS Rec].Quantity, '0.00') AS [POMS], SUM(COALESCE([POMS Rec].Quantity, '0.00') - [Portia Rec].Quantity) AS [Rec Difference]
+
+FROM [POMS Rec] LEFT JOIN [Portia Rec] ON [POMS Rec].PfoSedol = [Portia Rec].PfoSedol
+
+GROUP BY [Portia Rec].Portfolio, [POMS Rec].SecLongName, COALESCE([Portia Rec].Sedol, [POMS Rec].Sedol2, [POMS Rec].Ticker), [Portia Rec].Quantity, [POMS Rec].Quantity, [POMS Rec].Quantity-[Portia Rec].Quantity, [POMS Rec].Quantity
+
+HAVING ((([Portia Rec].Portfolio)<'zmonth') AND (([POMS Rec].[Quantity])<>[Portia Rec].[Quantity]))
+
+ORDER BY Portfolio, [Rec Difference];
+GO
+
