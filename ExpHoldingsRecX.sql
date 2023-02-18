@@ -11,13 +11,13 @@ GO
 
 
 
-CREATE PROCEDURE [dbo].[ExpHoldingsRecX] AS
---Trunc
-TRUNCATE TABLE [Holdings Rec X]
+CREATE PROCEDURE [dbo].[ExpHoldingsRec] AS
+--Clear table
+TRUNCATE TABLE [Holdings Diffs]
 
 --Portia NOT POMs
 
-INSERT INTO [Holdings Rec X] (Portfolio, [Security], Sedol, Ticker, Portia, POMS, [Rec Difference])
+INSERT INTO [Holdings Diffs] (Portfolio, [Security], Sedol, Ticker, Portia, POMS, [Rec Difference])
 
 SELECT [Portia Rec].Portfolio AS Portfolio, [Portia Rec].[Security] AS [Security], [POMS Rec].Ticker AS Ticker, [Portia Rec].Sedol AS [Sedol], [Portia Rec].Quantity AS [Portia], COALESCE([POMS Rec].Quantity, '0.00') AS [POMS], SUM(COALESCE([POMS Rec].Quantity, '0.00') - [Portia Rec].Quantity) AS [Rec Difference]
 
