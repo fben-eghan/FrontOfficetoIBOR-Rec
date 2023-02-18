@@ -1,3 +1,4 @@
+--Create Table for Securities Holdings Differences between Front Ofiice system and IBOR System.
 USE [POMSPortia4]
 GO
 
