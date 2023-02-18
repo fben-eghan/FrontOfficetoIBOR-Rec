@@ -1,3 +1,5 @@
+--Export cash differences between Front Office system and IBOR system.
+
 USE [POMSPortia4]
 GO
 
