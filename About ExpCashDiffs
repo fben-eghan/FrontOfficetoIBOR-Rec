@@ -1,0 +1,18 @@
+/*
+The output of this stored procedure would be a table containing the cash differences between the "Front Office" system and the "IBOR" system for each portfolio and currency.
+The table would have columns for "Portfolio," "CCY," "Portia" (the amount from the Front Office system),
+"POMS" (the amount from the IBOR system), and "Rec Difference" (the reconciliation difference between the two systems).
+
+Here is an example output:
+
+Portfolio	CCY	Portia	POMS	Rec Difference
+------------------------------------------
+ABCDEFGH	USD	1000.00	900.00	100.00
+ABCDEFGH	EUR	500.00	600.00	-100.00
+IJKLMNOP	USD	800.00	800.00	0.00
+JKLMNOPQ	EUR	200.00	220.00	-20.00
+
+For the portfolio "ABCDEFGH" in USD, there is a cash difference of $100.00 between the two systems,
+with the Front Office system reporting $1,000.00 and the IBOR system reporting $900.00.
+For the same portfolio in EUR, there is a difference of -100 EUR, with the Front Office system reporting 500 EUR and the IBOR system reporting 600 EUR.
+*\
