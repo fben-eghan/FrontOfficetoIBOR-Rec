@@ -1,12 +1,6 @@
 USE [POMSPortia4]
 GO
 
-/****** Object:  StoredProcedure [dbo].[ExpHoldingsRecX]    Script Date: 25/01/2023 15:32:27 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 CREATE PROCEDURE [dbo].[ExpHoldingsRec] AS
 BEGIN
