@@ -12,10 +12,10 @@ POMS: the quantity of the security held in the POMS system.
 Rec Difference: the difference between the Portia and POMS quantities for the security.
 An example output of the procedure might look like this:
 
-Portfolio	Security	Sedol	Ticker	Portia	POMS	Rec Difference
-ABCDEFGH	XYZ Inc.	123456	XYZ	  1000	  950	    -50
-HIJKLMNO	ABC Corp	789012	ABC	  500	    0	      -500
-PQRSTUVW	DEF Inc.	345678	DEF	  200	    220	    20
+Portfolio	Security	Sedol	  Ticker	Portia	POMS	Rec Difference
+ABCDEFGH	XYZ Inc.	1234567 	XYZ	  1000	  950	    -50
+HIJKLMNO	ABC Corp	7890123 	ABC	  500	    0	      -500
+PQRSTUVW	DEF Inc.	3456789 	DEF	  200	    220	    20
 
 In this example, the first row indicates that for the security with Sedol 123456, the Portia system shows a quantity of 1000, while the POMS system shows a quantity of 950.
 The "Rec Difference" column shows a negative value of -50, indicating that the Portia system holds 50 fewer units of the security than the POMS system.
