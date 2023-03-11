@@ -37,4 +37,4 @@ BEGIN
     FROM [Portia Rec] AS p
     JOIN [POMS Rec] AS m ON p.PfoSedol = m.PfoSedol
     WHERE p.Portfolio < 'zmonth' AND m.Quantity <> p.Quantity
-    GROUP BY p.Portfolio, m.SecLongName, m.T
+    GROUP BY p.Portfolio, m.SecLongName, COALESCE(p.Sedol, m.Sedol2), m.Ticker, p.Quantity, COALESCE(m.Quantity, '0.00');
