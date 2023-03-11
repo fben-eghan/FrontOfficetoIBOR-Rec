@@ -1,4 +1,5 @@
-/*The output of the stored procedure would be a table called "Holdings Diffs" which contains information about discrepancies between the holdings data from the Portia and POMS systems.
+/*
+The output of the stored procedure would be a table called "Holdings Diffs" which contains information about discrepancies between the holdings data from the Portia and POMS systems.
 
 The table would have the following columns:
 
